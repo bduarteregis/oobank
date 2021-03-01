@@ -31,4 +31,13 @@ public class ArmazenaConta {
         }
         return contas;
     }
+
+    public Conta consultaConta (int agencia, int numero) {
+        for(Conta conta : contas) {
+            if (conta.agencia == agencia && conta.numero == numero) {
+                return conta;
+            }
+        }
+        return null;
+    }
 }

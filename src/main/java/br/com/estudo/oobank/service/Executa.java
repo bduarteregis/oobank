@@ -1,6 +1,7 @@
 package br.com.estudo.oobank.service;
 
 import br.com.estudo.oobank.model.Conta;
+import br.com.estudo.oobank.model.Mensagem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class Executa {
 
     @Autowired
     public ArmazenaConta armazenaConta;
+
+    @Autowired
+    public Mensagem mensagens;
 
     public Conta criarConta(String titular,
                             int agencia,
@@ -32,24 +36,42 @@ public class Executa {
                      int numero,
                      double valor) {
 
-        conta.saldo += valor;
-        armazenaConta.atualizaSaldo(agencia, numero, conta.saldo);
-        return conta;
-
+        for (Conta conta : listarContas()) {
+            if (conta.agencia == agencia && conta.numero == numero) {
+                conta.saldo += valor;
+                armazenaConta.atualizaSaldo(agencia, numero, conta.saldo);
+                return conta;
+            }
+        }
+        return null;
     }
 
-//    public Conta sacar(int agencia,
-//                       int numero,
-//                       double valor) {
-//
-//        conta.agencia = agencia;
-//        conta.numero = numero;
-//        conta.saldo = conta.saldo - valor;
-//        return conta;
-//
-//    }
+    public Conta sacar(int agencia,
+                       int numero,
+                       double valor) {
 
-    public List<Conta> listaContas() {
+        for (Conta conta : listarContas()) {
+            if (conta.agencia == agencia && conta.numero == numero && valor <= conta.saldo) {
+                conta.saldo -= valor;
+                armazenaConta.atualizaSaldo(agencia, numero, conta.saldo);
+                return conta;
+            }
+        }
+        return null;
+    }
+
+    public Conta transferir (int agenciaA,
+                             int numeroA,
+                             int agenciaB,
+                             int numeroB,
+                             double valor) {
+
+        sacar(agenciaA, numeroA, valor);
+        depositar(agenciaB, numeroB, valor);
+        return armazenaConta.consultaConta(agenciaA, numeroA);
+    }
+
+    public List<Conta> listarContas() {
 
         return armazenaConta.contas;
 
