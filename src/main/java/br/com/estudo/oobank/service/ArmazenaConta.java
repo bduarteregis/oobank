@@ -1,6 +1,7 @@
 package br.com.estudo.oobank.service;
 
 import br.com.estudo.oobank.model.Conta;
+import br.com.estudo.oobank.model.Titular;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,19 @@ public class ArmazenaConta {
         return contas;
     }
 
+    public Conta atualizaTitular(int agencia,
+                                 int numero,
+                                 String cpf) {
+        for(Conta conta : contas) {
+            Titular titular = new Titular();
+            consulta(agencia, numero);
+            titular.nome = conta.titular;
+            titular.cpf = cpf;
+            return titular;
+        }
+        return null;
+    }
+
     public List<Conta> atualizaSaldo(int agencia, int numero, double saldo) {
         for(Conta conta : contas) {
             if (conta.agencia == agencia && conta.numero == numero) {
@@ -32,7 +46,7 @@ public class ArmazenaConta {
         return contas;
     }
 
-    public Conta consultaConta (int agencia, int numero) {
+    public Conta consulta(int agencia, int numero) {
         for(Conta conta : contas) {
             if (conta.agencia == agencia && conta.numero == numero) {
                 return conta;
@@ -40,4 +54,6 @@ public class ArmazenaConta {
         }
         return null;
     }
+
+
 }
