@@ -2,11 +2,24 @@ package br.com.estudo.oobank.model;
 
 import org.springframework.stereotype.Component;
 
-@Component
+public class Titular {
 
-public class Titular extends Conta{
+    private String nome;
+    private String cpf;
 
-    public String nome;
-    public String cpf;
+    public String getNome() {
+        return nome;
+    }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 }

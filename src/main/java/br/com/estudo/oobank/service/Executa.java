@@ -1,9 +1,11 @@
 package br.com.estudo.oobank.service;
 
-import br.com.estudo.oobank.model.Conta;
+import br.com.estudo.oobank.endpoint.ViaCepClient;
+import br.com.estudo.oobank.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -11,73 +13,53 @@ import java.util.List;
 public class Executa {
 
     @Autowired
-    public Conta conta;
+    public ViaCepClient viaCepClient;
 
     @Autowired
-    public ArmazenaConta armazenaConta;
+    public Armazenamento armazenamento;
 
-    public Conta criarConta(String titular,
-                            int agencia,
-                            int numero) {
-
-        conta.titular = titular;
-        conta.agencia = agencia;
-        conta.numero = numero;
-        armazenaConta.novaConta(titular, agencia, numero);
-        return conta;
-
+    public Titular defineTitular(String nome,
+                                 String cpf) {
+        Titular titular = new Titular();
+        titular.setNome(nome);
+        titular.setCpf(cpf);
+        return titular;
     }
 
-    public Conta alterarTitular(int agencia,
-                                int numero,
-                                String cpf) {
-
-        armazenaConta.atualizaTitular(agencia, numero, cpf);
-        return conta;
-
+    public Endereco defineEndereco(String cep) {
+        return viaCepClient.buscaCep(cep);
     }
 
-    public Conta depositar(int agencia,
-                     int numero,
-                     double valor) {
+    public ContaCorrente criaContaCorrente(Titular titular,
+                                           int agencia,
+                                           int numero) {
 
-        for (Conta conta : listarContas()) {
-            armazenaConta.consulta(agencia, numero);
-            conta.saldo += valor;
-            armazenaConta.atualizaSaldo(agencia, numero, conta.saldo);
-            return conta;
-        }
-        return null;
+        ContaCorrente contaCorrente = new ContaCorrente();
+        contaCorrente.setTitular(titular);
+        contaCorrente.setAgencia(agencia);
+        contaCorrente.setNumero(numero);
+//        armazenamento.novaConta(titular, agencia, numero);
+        return contaCorrente;
     }
 
-    public Conta sacar(int agencia,
-                       int numero,
-                       double valor) {
+    public ContaPoupanca criaContaPoupanca(Titular titular,
+                                           int agencia,
+                                           int numero) {
 
-        for (Conta conta : listarContas()) {
-            armazenaConta.consulta(agencia, numero);
-            if (valor <= conta.saldo) {
-                conta.saldo -= valor;
-                armazenaConta.atualizaSaldo(agencia, numero, conta.saldo);
-                return conta;
-            }
-        }
-        return null;
+        ContaPoupanca contaPoupanca = new ContaPoupanca();
+        contaPoupanca.setTitular(titular);
+        contaPoupanca.setAgencia(agencia);
+        contaPoupanca.setNumero(numero);
+//        armazenamento.novaConta(titular, agencia, numero);
+        return contaPoupanca;
     }
 
-    public Conta transferir(int agenciaA,
-                            int numeroA,
-                            int agenciaB,
-                            int numeroB,
-                            double valor) {
-
-        sacar(agenciaA, numeroA, valor);
-        depositar(agenciaB, numeroB, valor);
-        return armazenaConta.consulta(agenciaA, numeroA);
+    public List<Conta> criaContas(Titular titular,
+                                 int agencia,
+                                 int numero) {
+        List<Conta> contas = new ArrayList<>();
+        contas.add(criaContaCorrente(titular, agencia, numero));
+        contas.add(criaContaPoupanca(titular, agencia, numero));
+        return contas;
     }
-
-    public List<Conta> listarContas() {
-        return armazenaConta.contas;
-    }
-
 }
