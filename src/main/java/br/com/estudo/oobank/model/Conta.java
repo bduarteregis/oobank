@@ -3,10 +3,23 @@ package br.com.estudo.oobank.model;
 import org.springframework.stereotype.Component;
 
 public class Conta {
+    private String tipo;
     private Titular titular;
     private int agencia;
     private int numero;
     private double saldo;
+
+    public Conta(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public Titular getTitular() {
         return titular;

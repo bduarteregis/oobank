@@ -35,10 +35,11 @@ public class Executa {
                                            int numero) {
 
         ContaCorrente contaCorrente = new ContaCorrente();
+        contaCorrente.getTipo();
         contaCorrente.setTitular(titular);
         contaCorrente.setAgencia(agencia);
         contaCorrente.setNumero(numero);
-//        armazenamento.novaConta(titular, agencia, numero);
+        armazenamento.novaConta(contaCorrente);
         return contaCorrente;
     }
 
@@ -47,10 +48,11 @@ public class Executa {
                                            int numero) {
 
         ContaPoupanca contaPoupanca = new ContaPoupanca();
+        contaPoupanca.getTipo();
         contaPoupanca.setTitular(titular);
         contaPoupanca.setAgencia(agencia);
         contaPoupanca.setNumero(numero);
-//        armazenamento.novaConta(titular, agencia, numero);
+        armazenamento.novaConta(contaPoupanca);
         return contaPoupanca;
     }
 

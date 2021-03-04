@@ -5,6 +5,7 @@ import br.com.estudo.oobank.model.Conta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,19 +33,30 @@ public class Operacoes {
 
     }
 
-//    public Conta depositar(int agencia,
-//                     int numero,
-//                     double valor) {
-//
-//        for (Conta conta : listarContas()) {
-//            if (conta.getAgencia() == agencia && conta.getNumero() == numero) {
-//                conta.setSaldo(conta.getSaldo() + valor);
-//                armazenaConta.atualizaSaldo(agencia, numero, conta.getSaldo());
-//                return conta;
-//            }
-//        }
-//        return null;
-//    }
+    public List<Conta> listarConta(String cpf) {
+        return armazenamento.listaConta(cpf);
+    }
+
+    public List<Conta> listarContas() {
+        return armazenamento.listaContas();
+    }
+
+    public Cliente listarCliente (String cpf) {
+        return armazenamento.listaCliente(cpf);
+    }
+
+    public List<Cliente> listarClientes() {
+        return armazenamento.listaClientes();
+    }
+
+    public Conta depositar(String cpf,
+                           String tipo,
+                           double valor) {
+
+        Conta conta = new Conta(tipo);
+        conta.setSaldo(conta.getSaldo() + valor);
+        return armazenamento.atualizaSaldo(cpf, tipo, conta.getSaldo());
+    }
 
 //    public Conta sacar(int agencia,
 //                       int numero,
@@ -71,7 +83,6 @@ public class Operacoes {
 //        return armazenaConta.consulta(agenciaA, numeroA);
 //    }
 
-    public List<Conta> listarContas() {
-        return armazenamento.listaContas();
-    }
+
+
 }

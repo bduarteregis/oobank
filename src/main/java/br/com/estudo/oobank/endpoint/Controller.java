@@ -27,12 +27,32 @@ public class Controller {
         return new ResponseEntity(operacoes.novoCliente(nome, cpf, cep, agencia, numero), HttpStatus.OK);
     }
 
-//    @GetMapping("/oobank/deposita/")
-//    public ResponseEntity deposita(@RequestParam("agencia") int agencia,
-//                                   @RequestParam("numero") int numero,
-//                                   @RequestParam("valor") double valor) {
-//        return new ResponseEntity(executa.depositar(agencia, numero, valor), HttpStatus.OK);
-//    }
+    @GetMapping("/oobank/gerente/listaConta/")
+    public ResponseEntity listaConta(@RequestParam("cpf") String cpf) {
+        return new ResponseEntity(operacoes.listarConta(cpf), HttpStatus.OK);
+    }
+
+    @GetMapping("/oobank/gerente/listaContas/")
+    public ResponseEntity listaContas() {
+        return new ResponseEntity(operacoes.listarContas(), HttpStatus.OK);
+    }
+
+    @GetMapping("/oobank/gerente/listaCliente/")
+    public ResponseEntity listaCliente(@RequestParam("cpf") String cpf) {
+        return new ResponseEntity(operacoes.listarCliente(cpf), HttpStatus.OK);
+    }
+
+    @GetMapping("/oobank/gerente/listaClientes/")
+    public ResponseEntity listaClientes() {
+        return new ResponseEntity(operacoes.listarClientes(), HttpStatus.OK);
+    }
+
+    @GetMapping("/oobank/deposita/")
+    public ResponseEntity deposita(@RequestParam("cpf") String cpf,
+                                   @RequestParam("tipo") String tipo,
+                                   @RequestParam("valor") double valor) {
+        return new ResponseEntity(operacoes.depositar(cpf, tipo, valor), HttpStatus.OK);
+    }
 
 //    @GetMapping("/oobank/saca/")
 //    public ResponseEntity saca(@RequestParam("agencia") int agencia,
@@ -50,8 +70,4 @@ public class Controller {
 //        return new ResponseEntity(executa.transferir(agenciaA, numeroA, agenciaB, numeroB, valor), HttpStatus.OK);
 //    }
 
-    @GetMapping("/oobank/gerente/listaContas")
-    public ResponseEntity listaContas() {
-        return new ResponseEntity(operacoes.listarContas(), HttpStatus.OK);
-    }
 }

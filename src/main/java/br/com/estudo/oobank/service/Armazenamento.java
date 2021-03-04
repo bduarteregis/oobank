@@ -1,9 +1,7 @@
 package br.com.estudo.oobank.service;
 
 import br.com.estudo.oobank.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,33 +23,37 @@ public class Armazenamento {
         return clientes;
     }
 
-    public List<Conta> novaConta(Titular titular,
-                                 int agencia,
-                                 int numero) {
-        Conta conta = new Conta();
-        conta.setTitular(titular);
-        conta.setAgencia(agencia);
-        conta.setNumero(numero);
+    public Conta novaConta(Conta conta) {
+        conta.getTipo();
+        conta.getTitular();
+        conta.getAgencia();
+        conta.getNumero();
+        conta.getSaldo();
         contas.add(conta);
-        return contas;
+        return conta;
     }
 
-//    public List<Conta> atualizaSaldo(int agencia,
-//                                     int numero,
-//                                     double saldo) {
-//        for(Conta conta : contas) {
-//            if (conta.getAgencia() == agencia && conta.getNumero() == numero) {
-//                conta.setSaldo(saldo);
-//                return contas;
-//            }
-//        }
-//        return null;
-//    }
+    public Conta atualizaSaldo(String cpf,
+                                     String tipo,
+                                     double saldo) {
+        for (Conta conta : contas) {
+            if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
+                conta.setSaldo(saldo);
+                return conta;
+            }
+        }
+        return null;
+    }
 
-    public List<Conta> listaConta(Titular titular) {
-        for(Cliente cliente : clientes) {
-            if (cliente.getTitular() == titular) {
-                return cliente.getContas();
+    public List<Conta> listaConta(String cpf) {
+        for (Conta conta : contas) {
+            if (conta.getTitular().getCpf().equals(cpf)) {
+                conta.getTipo();
+                conta.getTitular();
+                conta.getAgencia();
+                conta.getNumero();
+                conta.getSaldo();
+                return contas;
             }
         }
         return null;
@@ -59,14 +61,18 @@ public class Armazenamento {
 
     public List<Conta> listaContas() {
         for (Cliente cliente : clientes) {
-            return cliente.getContas();
+            for (Conta conta : contas) {
+                if (conta.getTitular() == cliente.getTitular()) {
+                    return contas;
+                }
+            }
         }
         return null;
     }
 
     public Cliente listaCliente(String cpf) {
         for(Cliente cliente : clientes) {
-            if (cliente.getTitular().getCpf() == cpf) {
+            if (cliente.getTitular().getCpf().equals(cpf)) {
                 cliente.getTitular();
                 cliente.getEndereco();
                 cliente.getContas();
@@ -76,5 +82,14 @@ public class Armazenamento {
         return null;
     }
 
+    public List<Cliente> listaClientes() {
+        for(Cliente cliente : clientes) {
+            cliente.getTitular();
+            cliente.getEndereco();
+            cliente.getContas();
+            return clientes;
+        }
+        return null;
+    }
 
 }
