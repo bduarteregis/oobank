@@ -24,11 +24,6 @@ public class Armazenamento {
     }
 
     public Conta novaConta(Conta conta) {
-        conta.getTipo();
-        conta.getTitular();
-        conta.getAgencia();
-        conta.getNumero();
-        conta.getSaldo();
         contas.add(conta);
         return conta;
     }
@@ -45,26 +40,22 @@ public class Armazenamento {
         return null;
     }
 
-    public List<Conta> listaConta(String cpf) {
+    public Conta listaConta(String cpf,
+                            String tipo) {
         for (Conta conta : contas) {
-            if (conta.getTitular().getCpf().equals(cpf)) {
-                conta.getTipo();
-                conta.getTitular();
-                conta.getAgencia();
-                conta.getNumero();
-                conta.getSaldo();
-                return contas;
+            if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
+                return conta;
             }
         }
         return null;
     }
 
-    public List<Conta> listaContas() {
+    public List<Conta> listaContasCliente(String cpf) {
+        List<Conta> contasCliente = new ArrayList<>();
         for (Cliente cliente : clientes) {
-            for (Conta conta : contas) {
-                if (conta.getTitular() == cliente.getTitular()) {
-                    return contas;
-                }
+            if (cliente.getTitular().getCpf().equals(cpf)) {
+                contasCliente = cliente.getContas();
+                return contasCliente;
             }
         }
         return null;
@@ -73,9 +64,6 @@ public class Armazenamento {
     public Cliente listaCliente(String cpf) {
         for(Cliente cliente : clientes) {
             if (cliente.getTitular().getCpf().equals(cpf)) {
-                cliente.getTitular();
-                cliente.getEndereco();
-                cliente.getContas();
                 return cliente;
             }
         }
@@ -83,13 +71,7 @@ public class Armazenamento {
     }
 
     public List<Cliente> listaClientes() {
-        for(Cliente cliente : clientes) {
-            cliente.getTitular();
-            cliente.getEndereco();
-            cliente.getContas();
-            return clientes;
-        }
-        return null;
+        return clientes;
     }
 
 }

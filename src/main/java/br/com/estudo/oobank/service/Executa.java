@@ -64,4 +64,31 @@ public class Executa {
         contas.add(criaContaPoupanca(titular, agencia, numero));
         return contas;
     }
+
+    public Conta deposito(String cpf,
+                              String tipo,
+                              double valor) {
+
+        for (Conta conta : armazenamento.contas) {
+            if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
+                conta.setSaldo(conta.getSaldo() + valor);
+                return conta;
+            }
+        }
+        return null;
+    }
+
+    public Conta saque(String cpf,
+                              String tipo,
+                              double valor) {
+
+        for (Conta conta : armazenamento.contas) {
+            if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
+                conta.setSaldo(conta.getSaldo() - valor);
+                return conta;
+            }
+        }
+        return null;
+    }
+
 }

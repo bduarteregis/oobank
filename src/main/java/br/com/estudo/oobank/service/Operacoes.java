@@ -33,12 +33,13 @@ public class Operacoes {
 
     }
 
-    public List<Conta> listarConta(String cpf) {
-        return armazenamento.listaConta(cpf);
+    public Conta listarConta(String cpf,
+                                   String tipo) {
+        return armazenamento.listaConta(cpf, tipo);
     }
 
-    public List<Conta> listarContas() {
-        return armazenamento.listaContas();
+    public List<Conta> listarContas(String cpf) {
+        return armazenamento.listaContasCliente(cpf);
     }
 
     public Cliente listarCliente (String cpf) {
@@ -53,36 +54,25 @@ public class Operacoes {
                            String tipo,
                            double valor) {
 
-        Conta conta = new Conta(tipo);
-        conta.setSaldo(conta.getSaldo() + valor);
-        return armazenamento.atualizaSaldo(cpf, tipo, conta.getSaldo());
+        return executa.deposito(cpf, tipo, valor);
     }
 
-//    public Conta sacar(int agencia,
-//                       int numero,
-//                       double valor) {
-//
-//        for (Conta conta : listarContas()) {
-//            if (conta.getAgencia() == agencia && conta.getNumero() == numero) {
-//                conta.setSaldo(conta.getSaldo() - valor);
-//                armazenaConta.atualizaSaldo(agencia, numero, conta.getSaldo());
-//                return conta;
-//            }
-//        }
-//        return null;
-//    }
+    public Conta sacar(String cpf,
+                       String tipo,
+                       double valor) {
 
-//    public Conta transferir(int agenciaA,
-//                            int numeroA,
-//                            int agenciaB,
-//                            int numeroB,
-//                            double valor) {
-//
-//        sacar(agenciaA, numeroA, valor);
-//        depositar(agenciaB, numeroB, valor);
-//        return armazenaConta.consulta(agenciaA, numeroA);
-//    }
+        return executa.saque(cpf, tipo, valor);
+    }
 
+    public Conta transferir(String cpfA,
+                            String tipoA,
+                            String cpfB,
+                            String tipoB,
+                            double valor) {
 
+        sacar(cpfA, tipoA, valor);
+        depositar(cpfB, tipoB, valor);
+        return armazenamento.listaConta(cpfA, tipoA);
+    }
 
 }

@@ -28,13 +28,14 @@ public class Controller {
     }
 
     @GetMapping("/oobank/gerente/listaConta/")
-    public ResponseEntity listaConta(@RequestParam("cpf") String cpf) {
-        return new ResponseEntity(operacoes.listarConta(cpf), HttpStatus.OK);
+    public ResponseEntity listaConta(@RequestParam("cpf") String cpf,
+                                     @RequestParam("tipo") String tipo) {
+        return new ResponseEntity(operacoes.listarConta(cpf, tipo), HttpStatus.OK);
     }
 
     @GetMapping("/oobank/gerente/listaContas/")
-    public ResponseEntity listaContas() {
-        return new ResponseEntity(operacoes.listarContas(), HttpStatus.OK);
+    public ResponseEntity listaContas(@RequestParam("cpf") String cpf) {
+        return new ResponseEntity(operacoes.listarContas(cpf), HttpStatus.OK);
     }
 
     @GetMapping("/oobank/gerente/listaCliente/")
@@ -54,20 +55,20 @@ public class Controller {
         return new ResponseEntity(operacoes.depositar(cpf, tipo, valor), HttpStatus.OK);
     }
 
-//    @GetMapping("/oobank/saca/")
-//    public ResponseEntity saca(@RequestParam("agencia") int agencia,
-//                               @RequestParam("numero") int numero,
-//                               @RequestParam("valor") double valor) {
-//        return new ResponseEntity(executa.sacar(agencia, numero, valor), HttpStatus.OK);
-//    }
+    @GetMapping("/oobank/saca/")
+    public ResponseEntity saca(@RequestParam("cpf") String cpf,
+                                   @RequestParam("tipo") String tipo,
+                                   @RequestParam("valor") double valor) {
+        return new ResponseEntity(operacoes.sacar(cpf, tipo, valor), HttpStatus.OK);
+    }
 
-//    @GetMapping("/oobank/transfere/")
-//    public ResponseEntity transfere(@RequestParam("agenciaA") int agenciaA,
-//                               @RequestParam("numeroA") int numeroA,
-//                               @RequestParam("agenciaB") int agenciaB,
-//                               @RequestParam("numeroB") int numeroB,
-//                               @RequestParam("valor") double valor) {
-//        return new ResponseEntity(executa.transferir(agenciaA, numeroA, agenciaB, numeroB, valor), HttpStatus.OK);
-//    }
+    @GetMapping("/oobank/transfere/")
+    public ResponseEntity transfere(@RequestParam("cpfA") String cpfA,
+                               @RequestParam("tipoA") String tipoA,
+                               @RequestParam("cpfB") String cpfB,
+                               @RequestParam("tipoB") String tipoB,
+                               @RequestParam("valor") double valor) {
+        return new ResponseEntity(operacoes.transferir(cpfA, tipoA, cpfB, tipoB, valor), HttpStatus.OK);
+    }
 
 }
