@@ -38,7 +38,7 @@ public class Operacoes {
         return armazenamento.listaConta(cpf, tipo);
     }
 
-    public List<Conta> listarContas(String cpf) {
+    public List<Conta> listarContasCliente(String cpf) {
         return armazenamento.listaContasCliente(cpf);
     }
 

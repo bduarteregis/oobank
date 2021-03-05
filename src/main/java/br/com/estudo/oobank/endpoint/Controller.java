@@ -33,9 +33,9 @@ public class Controller {
         return new ResponseEntity(operacoes.listarConta(cpf, tipo), HttpStatus.OK);
     }
 
-    @GetMapping("/oobank/gerente/listaContas/")
-    public ResponseEntity listaContas(@RequestParam("cpf") String cpf) {
-        return new ResponseEntity(operacoes.listarContas(cpf), HttpStatus.OK);
+    @GetMapping("/oobank/gerente/listaContasCliente/")
+    public ResponseEntity listaContasCliente(@RequestParam("cpf") String cpf) {
+        return new ResponseEntity(operacoes.listarContasCliente(cpf), HttpStatus.OK);
     }
 
     @GetMapping("/oobank/gerente/listaCliente/")
