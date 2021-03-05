@@ -20,9 +20,12 @@ public class Executa {
 
     public Titular defineTitular(String nome,
                                  String cpf) {
-        Titular titular = new Titular();
-        titular.setNome(nome);
-        titular.setCpf(cpf);
+        Titular titular = null;
+        try {
+            titular = Titular.converte(nome, cpf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return titular;
     }
 
