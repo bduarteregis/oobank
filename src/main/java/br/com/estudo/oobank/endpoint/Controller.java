@@ -24,7 +24,11 @@ public class Controller {
                                     @RequestParam("cep") String cep,
                                     @RequestParam("agencia") int agencia,
                                     @RequestParam("numero") int numero) {
-        return new ResponseEntity(operacoes.novoCliente(nome, cpf, cep, agencia, numero), HttpStatus.OK);
+        try {
+            return new ResponseEntity(operacoes.novoCliente(nome, cpf, cep, agencia, numero), HttpStatus.OK);
+        } catch (NullPointerException e) {
+            return new ResponseEntity("CPF já cadastrado em nossa base de Dados", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/oobank/gerente/listaConta/")
@@ -52,7 +56,12 @@ public class Controller {
     public ResponseEntity deposita(@RequestParam("cpf") String cpf,
                                    @RequestParam("tipo") String tipo,
                                    @RequestParam("valor") double valor) {
-        return new ResponseEntity(operacoes.depositar(cpf, tipo, valor), HttpStatus.OK);
+        try {
+            return new ResponseEntity(operacoes.depositar(cpf, tipo, valor), HttpStatus.OK);
+        }
+        catch (NullPointerException e) {
+            return new ResponseEntity("CPF inválido", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/oobank/saca/")

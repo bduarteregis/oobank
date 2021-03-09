@@ -15,29 +15,20 @@ public class Armazenamento {
     public List<Cliente> clientes = new ArrayList<Cliente>();
 
     public List<Cliente> novoCliente(Cliente cliente) {
-        Cliente novoCliente = new Cliente();
-        novoCliente.setTitular(cliente.getTitular());
-        novoCliente.setEndereco(cliente.getEndereco());
-        novoCliente.setContas(cliente.getContas());
-        clientes.add(novoCliente);
-        return clientes;
+        if (cliente.getTitular().getCpf() != null) {
+            Cliente novoCliente = new Cliente();
+            novoCliente.setTitular(cliente.getTitular());
+            novoCliente.setEndereco(cliente.getEndereco());
+            novoCliente.setContas(cliente.getContas());
+            clientes.add(novoCliente);
+            return clientes;
+        }
+        return null;
     }
 
     public Conta novaConta(Conta conta) {
         contas.add(conta);
         return conta;
-    }
-
-    public Conta atualizaSaldo(String cpf,
-                                     String tipo,
-                                     double saldo) {
-        for (Conta conta : contas) {
-            if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
-                conta.setSaldo(saldo);
-                return conta;
-            }
-        }
-        return null;
     }
 
     public Conta listaConta(String cpf,

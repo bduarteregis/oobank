@@ -20,6 +20,13 @@ public class Executa {
 
     public Titular defineTitular(String nome,
                                  String cpf) {
+
+        for (Cliente cliente : armazenamento.clientes) {
+            if (cliente.getTitular().getCpf().equals(cpf)) {
+                return null;
+            }
+            break;
+        }
         Titular titular = new Titular();
         titular.setNome(nome);
         titular.setCpf(cpf);
@@ -66,8 +73,8 @@ public class Executa {
     }
 
     public Conta deposito(String cpf,
-                              String tipo,
-                              double valor) {
+                          String tipo,
+                          double valor) {
 
         for (Conta conta : armazenamento.contas) {
             if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
@@ -79,8 +86,8 @@ public class Executa {
     }
 
     public Conta saque(String cpf,
-                              String tipo,
-                              double valor) {
+                       String tipo,
+                       double valor) {
 
         for (Conta conta : armazenamento.contas) {
             if (conta.getTitular().getCpf().equals(cpf) && conta.getTipo().equals(tipo)) {
