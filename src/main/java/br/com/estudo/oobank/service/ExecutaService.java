@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
-public class Executa {
+public class ExecutaService {
 
     @Autowired
     public ViaCepClient viaCepClient;
@@ -19,14 +18,8 @@ public class Executa {
     public Armazenamento armazenamento;
 
     public Titular defineTitular(String nome,
-                                 String cpf) {
-        Titular titular = null;
-        try {
-            titular = Titular.converte(nome, cpf);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return titular;
+                                 String cpf) throws Exception {
+        return Titular.converte(nome, cpf);
     }
 
     public Endereco defineEndereco(String cep) {

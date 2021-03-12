@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 
 public class Controller {
@@ -20,11 +24,19 @@ public class Controller {
 
     @GetMapping("/oobank/gerente/novoCliente/")
     public ResponseEntity novoCliente(@RequestParam("nome") String nome,
-                                    @RequestParam("cpf") String cpf,
+                                    @RequestParam(value="cpf", required = false) String cpf,
                                     @RequestParam("cep") String cep,
                                     @RequestParam("agencia") int agencia,
                                     @RequestParam("numero") int numero) {
-        return new ResponseEntity(operacoes.novoCliente(nome, cpf, cep, agencia, numero), HttpStatus.OK);
+        try {
+            return new ResponseEntity(operacoes.novoCliente(nome, cpf, cep, agencia, numero), HttpStatus.OK);
+
+        } catch (Exception e) {
+            Map<String, String> erro = new HashMap<>();
+            erro.put("mensagem", e.getMessage());
+            return new ResponseEntity(erro,HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/oobank/gerente/listaConta/")

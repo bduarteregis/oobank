@@ -5,7 +5,6 @@ import br.com.estudo.oobank.model.Conta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,18 +15,21 @@ public class Operacoes {
     public Armazenamento armazenamento;
 
     @Autowired
-    public Executa executa;
+    public ExecutaService executaService;
 
     public Cliente novoCliente(String nome,
                                String cpf,
                                String cep,
                                int agencia,
-                               int numero) {
+                               int numero) throws Exception {
 
         Cliente cliente = new Cliente();
-        cliente.setTitular(executa.defineTitular(nome, cpf));
-        cliente.setEndereco(executa.defineEndereco(cep));
-        cliente.setContas(executa.criaContas(cliente.getTitular(), agencia, numero));
+//        if (Objects.isNull(cpf)) {
+//            throw new Exception("Erro cpf");
+//        }
+        cliente.setTitular(executaService.defineTitular(nome, cpf));
+        cliente.setEndereco(executaService.defineEndereco(cep));
+        cliente.setContas(executaService.criaContas(cliente.getTitular(), agencia, numero));
         armazenamento.novoCliente(cliente);
         return armazenamento.listaCliente(cpf);
 
@@ -54,14 +56,14 @@ public class Operacoes {
                            String tipo,
                            double valor) {
 
-        return executa.deposito(cpf, tipo, valor);
+        return executaService.deposito(cpf, tipo, valor);
     }
 
     public Conta sacar(String cpf,
                        String tipo,
                        double valor) {
 
-        return executa.saque(cpf, tipo, valor);
+        return executaService.saque(cpf, tipo, valor);
     }
 
     public Conta transferir(String cpfA,
